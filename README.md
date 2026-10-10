@@ -11,26 +11,19 @@ Repositori ini berisi pengerjaan tugas take-home Sesi 05. Tujuannya membandingka
 | File / Folder | Isi |
 |---|---|
 | `Part A - Analisis Konseptual.pdf` | Bagian A: jawaban lima pertanyaan konseptual |
-| `Part_B_Eksperimen.ipynb` | Bagian B: notebook eksperimen B1 sampai B5 yang sudah dieksekusi lengkap beserta output-nya |
+| `Part B - Experiment.ipynb` | Bagian B: notebook eksperimen B1 sampai B5 yang sudah dieksekusi lengkap beserta output-nya |
 | `Part C - Laporan dan Analisis.pdf` | Bagian C: laporan analisis (C1 sampai C4) dan pernyataan penggunaan AI |
-| `logs/` | Log mentah hasil eksekusi notebook (bukti integritas data) |
-| `figures/` | Grafik yang dipakai di laporan |
+| `logs/` | Log metrik hasil eksekusi notebook (bukti integritas data) |
 | `requirements.txt` | Library dan versi yang dipakai |
 
 Isi folder `logs/`:
 
 | File | Isi |
 |---|---|
-| `results.csv`, `results.json` | Ringkasan metrik tiap kondisi (trainable parameters, learning rate, epoch konvergen, waktu latih, akurasi validasi, Macro F1 test, generalization gap) |
-| `history.csv` | Loss dan akurasi train/validasi per epoch untuk semua kondisi |
-| `test_predictions.csv` | Prediksi tiap citra test (label asli, prediksi, confidence) |
-| `table_c1.csv` | Tabel konsolidasi untuk bagian C1 |
-| `c3_misclassified.csv` | 8 kesalahan dengan confidence tertinggi untuk bagian C3 |
-| `config.json` | Konfigurasi eksperimen (seed, hyperparameter, versi library) |
-| `split_indices.json`, `split_counts.csv` | Indeks dan jumlah citra tiap split (train/val/test) |
-| `runs/<kode>/` | Log per kondisi: `summary.json`, `history.csv`, `test_predictions.csv` |
+| `results.csv` | Ringkasan metrik tiap kondisi (6 baris: B1, B2, B3, B4_noaug, B4_aug, B5): trainable parameters, learning rate per kelompok parameter, epoch konvergen, jumlah epoch yang dijalankan, waktu latih, val loss terbaik, akurasi validasi, dan Macro F1 test. Untuk B4 juga ada akurasi train bersih dan generalization gap |
+| `history.csv` | Loss dan akurasi train/validasi per epoch untuk semua kondisi (83 baris), lengkap dengan learning rate, waktu per epoch, dan penanda epoch terbaik |
 
-Checkpoint model (`.pt`) tidak dimasukkan ke repositori karena ukurannya besar (±45 MB per file) dan tidak diwajibkan oleh tugas.
+Catatan: kedua file ini diekstrak dari output sel notebook `Part B - Experiment.ipynb`, jadi presisinya mengikuti angka yang tercetak (4 desimal untuk loss/akurasi, 1 desimal untuk waktu per epoch). Kolom `train_acc_clean` dan `gap_train_val` hanya terisi untuk B4, karena hanya nilai itu yang ditampilkan di notebook. Saat dijalankan, notebook juga menyimpan log lengkap (termasuk `test_predictions.csv` dan checkpoint `.pt`) ke Google Drive di `MyDrive/tugas05_outputs/`.
 
 ## Dataset
 
@@ -59,7 +52,7 @@ Split `trainval` dan `test` bawaan torchvision digabung dulu, lalu dibagi ulang 
 
 ## Cara Menjalankan
 
-1. Buka `Part_B_Eksperimen.ipynb` di [Google Colab](https://colab.research.google.com/).
+1. Buka `Part B - Experiment.ipynb` di [Google Colab](https://colab.research.google.com/).
 2. Pilih **Runtime → Change runtime type → T4 GPU**.
 3. Pilih **Runtime → Run all**, lalu izinkan akses Google Drive saat diminta. Semua log dan grafik akan tersimpan di `MyDrive/tugas05_outputs/`.
 4. Kalau runtime terputus di tengah jalan, ubah `RESUME = True` di sel konfigurasi lalu jalankan ulang. Kondisi yang sudah selesai akan dimuat dari Drive, jadi tidak dilatih ulang.
@@ -101,11 +94,13 @@ Seed dikunci dan `cudnn.deterministic` dinyalakan. Kondisi `B4_aug` memakai konf
 
 ## Pernyataan Penggunaan AI
 
-Tugas ini dikerjakan dengan bantuan AI. Rincian alat yang dipakai, ruang lingkup bantuannya, dan cara verifikasinya ada di lampiran **Pernyataan Penggunaan AI** pada laporan Bagian C.
+Tugas ini dikerjakan dengan bantuan AI (Claude dan Gemini). Rincian ruang lingkup bantuannya dan cara verifikasinya ada di lampiran **Pernyataan Penggunaan AI** pada laporan Part C.
 
 ## Referensi
 
-- O. M. Parkhi, A. Vedaldi, A. Zisserman, and C. V. Jawahar, "Cats and dogs," in *Proc. IEEE CVPR*, 2012, pp. 3498–3505.
-- K. He, X. Zhang, S. Ren, and J. Sun, "Deep residual learning for image recognition," in *Proc. IEEE CVPR*, 2016, pp. 770–778.
-- M. Tan and Q. V. Le, "EfficientNet: Rethinking model scaling for convolutional neural networks," in *Proc. ICML*, 2019, pp. 6105–6114.
-- Hidayaturrahman, "Session 05: Advanced CNNs and Transfer Learning," bahan tayang mata kuliah Deep Learning, 2026.
+- O. M. Parkhi, A. Vedaldi, A. Zisserman, and C. V. Jawahar, "Cats and dogs," in *Proc. IEEE CVPR*, 2012. https://www.robots.ox.ac.uk/~vgg/data/pets/
+- PyTorch, "torchvision.datasets.OxfordIIITPet," torchvision documentation. https://docs.pytorch.org/vision/stable/generated/torchvision.datasets.OxfordIIITPet.html
+- PyTorch, "Models and pre-trained weights," torchvision documentation. https://docs.pytorch.org/vision/stable/models.html
+- K. He, X. Zhang, S. Ren, and J. Sun, "Deep residual learning for image recognition," in *Proc. IEEE CVPR*, 2016, pp. 770–778. https://arxiv.org/abs/1512.03385
+- M. Tan and Q. V. Le, "EfficientNet: Rethinking model scaling for convolutional neural networks," in *Proc. ICML*, PMLR vol. 97, 2019, pp. 6105–6114. https://proceedings.mlr.press/v97/tan19a.html
+- Hidayaturrahman, "Session 05: Advanced CNNs and Transfer Learning," materi kuliah Deep Learning (file PPT kelas).

@@ -1,0 +1,7 @@
+run_id,condition,arch,strategy,augmentation,seed,trainable_params,total_params,trainable_pct,lr_per_group,batch_size,weight_decay,patience,max_epochs,best_epoch,epochs_run,early_stopped,train_time_sec,val_loss_best,val_acc,train_acc_clean,gap_train_val,test_f1_macro,notes
+B1,Baseline from Scratch,resnet18,scratch,True,42,11181642,11181642,100.0,all=1e-03,32,0.01,5,30,15,20,True,341.2,1.4159,0.4933,,,0.4335,
+B2,Feature Extraction,resnet18,feature_extraction,True,42,5130,11181642,0.05,fc=1e-03,32,0.01,5,30,21,26,True,379.3,0.3259,0.8758,,,0.9066,
+B3,Progressive Fine-Tuning,resnet18,finetune,True,42,8398858,11181642,75.11,layer4=1e-04; fc=1e-03,32,0.01,5,30,3,8,True,118.5,0.2724,0.8893,,,0.9000,
+B4_noaug,Augmentation Control: tanpa augmentasi,resnet18,finetune,False,42,8398858,11181642,75.11,layer4=1e-04; fc=1e-03,32,0.01,5,30,4,9,True,95.6,0.2801,0.9094,1.0000,0.0906,0.9156,Konfigurasi B3 tanpa augmentasi
+B4_aug,Augmentation Control: dengan augmentasi,resnet18,finetune,True,42,8398858,11181642,75.11,layer4=1e-04; fc=1e-03,32,0.01,5,30,3,8,True,120.0,0.2724,0.8893,0.9748,0.0856,0.9000,Konfigurasi B3 dengan augmentasi (re-run B3)
+B5,Arsitektur Pembanding: EfficientNet-B0,efficientnet_b0,finetune,False,42,3168550,4020358,78.81,features[6:]=1e-04; classifier=1e-03,32,0.01,5,30,7,12,True,130.5,0.1603,0.9329,,,0.9423,Mengikuti konfigurasi terbaik B4_noaug
