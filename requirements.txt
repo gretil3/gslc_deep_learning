@@ -1,0 +1,9 @@
+# Diuji di Google Colab dengan Python 3.13.15 dan GPU Tesla T4.
+# Versi torch dan torchvision sesuai output sel "Setup Environment" di notebook
+# (build Colab: torch 2.11.0+cu130, torchvision 0.26.0+cu130).
+torch==2.11.0
+torchvision==0.26.0
+numpy
+pandas
+matplotlib
+scikit-learn
